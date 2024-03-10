@@ -1,7 +1,14 @@
-build: 
-	bison 29_A3.y --defines=29_A3.tab.h -o 29_A3.tab.c
-	flex -o lex.yy.c 29_A3.l
-	gcc -o parser lex.yy.c 29_A3.tab.c 29_A3.c -lfl -Werror
+.SUFFIXES: 
 
-make clean:
-	rm -f lex.yy.c 29_A3.tab.c 29_A3.tab.h parser
+translator: 29_A4.y 29_A4.c 29_A4.l
+	bison -d 29_A4.y
+	flex -o lex.yy.c 29_A4.l
+	gcc 29_A4.c 29_A4.tab.c lex.yy.c -Werror -o translator
+
+build: translator
+
+test: translator
+	./translator < 29_A4.nc
+
+clean:
+	rm -f translator lex.yy.c 29_4.tab.c 29_4.tab.h
